@@ -1,0 +1,56 @@
+name: Daily Platoon Update
+
+on:
+  schedule:
+    # 10:00 AM ET (14:00 UTC) — last night's games are always official by then
+    - cron: '0 14 * * *'
+  workflow_dispatch:
+    inputs:
+      date:
+        description: 'Date to update (YYYY-MM-DD). Defaults to yesterday.'
+        required: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Cache pip packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: pip-${{ hashFiles('pitch-quality-model/requirements.txt') }}
+          restore-keys: pip-
+
+      - name: Cache pybaseball Statcast data
+        uses: actions/cache@v4
+        with:
+          path: ~/.pybaseball/cache
+          key: pybaseball-2026-${{ github.run_id }}
+          restore-keys: |
+            pybaseball-2026-
+
+      - name: Install dependencies
+        run: |
+          pip install -q pybaseball pandas numpy scikit-learn joblib \
+                         supabase python-dotenv
+
+      - name: Run daily update
+        working-directory: pitch-quality-model
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: |
+          DATE="${{ github.event.inputs.date }}"
+          if [ -z "$DATE" ]; then
+            python3 daily_update.py
+          else
+            python3 daily_update.py "$DATE"
+          fi
