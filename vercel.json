@@ -3,12 +3,12 @@
     {
       "source": "/fg-compare",
       "destination": "https://baseball-hopper.vercel.app/stuff/fg-compare",
-      "permanent": true
+      "permanent": false
     },
     {
       "source": "/(.*)",
       "destination": "https://baseball-hopper.vercel.app/stuff/platoon",
-      "permanent": true
+      "permanent": false
     }
   ]
 }
