@@ -1,0 +1,14 @@
+{
+  "redirects": [
+    {
+      "source": "/fg-compare",
+      "destination": "https://baseball-hopper.vercel.app/stuff/fg-compare",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "destination": "https://baseball-hopper.vercel.app/stuff/platoon",
+      "permanent": true
+    }
+  ]
+}
