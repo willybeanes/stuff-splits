@@ -3,7 +3,7 @@ name: Daily Platoon Update
 on:
   schedule:
     # 10:00 AM ET (14:00 UTC) — last night's games are always official by then
-    - cron: '0 14 * * *'
+    - cron: '0 14 * 3-10 *'
   workflow_dispatch:
     inputs:
       date:
