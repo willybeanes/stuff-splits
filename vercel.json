@@ -2,12 +2,12 @@
   "redirects": [
     {
       "source": "/fg-compare",
-      "destination": "https://baseball-hopper.vercel.app/stuff/fg-compare",
+      "destination": "https://baseballhopper.com/stuff/fg-compare",
       "permanent": false
     },
     {
       "source": "/(.*)",
-      "destination": "https://baseball-hopper.vercel.app/stuff/platoon",
+      "destination": "https://baseballhopper.com/stuff/platoon",
       "permanent": false
     }
   ]
